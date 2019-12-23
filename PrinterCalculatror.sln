@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.40629.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PrinterCalculator", "PrinterCalculatror\PrinterCalculatror.vcxproj", "{1F8F3C0B-34E1-4720-AD2F-AD16367FC42D}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GTest", "GTest\GTest.vcxproj", "{AC53B4BD-93C4-4666-989B-511B9EB99000}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "unittest_printerCalculator", "unittest_printerCalculator\unittest_printerCalculator.vcxproj", "{9721EC56-A12E-41FA-863D-28B742AD49DF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1F8F3C0B-34E1-4720-AD2F-AD16367FC42D}.Debug|Win32.ActiveCfg = Debug|Win32
+		{1F8F3C0B-34E1-4720-AD2F-AD16367FC42D}.Debug|Win32.Build.0 = Debug|Win32
+		{1F8F3C0B-34E1-4720-AD2F-AD16367FC42D}.Release|Win32.ActiveCfg = Release|Win32
+		{1F8F3C0B-34E1-4720-AD2F-AD16367FC42D}.Release|Win32.Build.0 = Release|Win32
+		{AC53B4BD-93C4-4666-989B-511B9EB99000}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AC53B4BD-93C4-4666-989B-511B9EB99000}.Debug|Win32.Build.0 = Debug|Win32
+		{AC53B4BD-93C4-4666-989B-511B9EB99000}.Release|Win32.ActiveCfg = Release|Win32
+		{AC53B4BD-93C4-4666-989B-511B9EB99000}.Release|Win32.Build.0 = Release|Win32
+		{9721EC56-A12E-41FA-863D-28B742AD49DF}.Debug|Win32.ActiveCfg = Debug|Win32
+		{9721EC56-A12E-41FA-863D-28B742AD49DF}.Debug|Win32.Build.0 = Debug|Win32
+		{9721EC56-A12E-41FA-863D-28B742AD49DF}.Release|Win32.ActiveCfg = Release|Win32
+		{9721EC56-A12E-41FA-863D-28B742AD49DF}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
