@@ -1,5 +1,6 @@
 #include <unordered_map>
 #include <map>
+#include "CSVDataFile.h"
 
 enum class JobType
 {
@@ -63,8 +64,9 @@ private:
 class PrinterTask
 {
 public:
-	//Load all print job from a file
+	//Load all print job from a file name
 	PrinterTask(const std::string& strFileName);
+	PrinterTask(std::unique_ptr<CCsvDataFile> df);
 
 	bool DoCalculate();
 
@@ -80,5 +82,5 @@ private:
 	std::map<int, std::string> m_mapExceptionRows;
 	float m_totalPriceBlackAndWhite;
 	float m_totalPriceColor;
-	std::string m_fileName; 
+	std::unique_ptr<CCsvDataFile> m_ptrCsvFile;
 };

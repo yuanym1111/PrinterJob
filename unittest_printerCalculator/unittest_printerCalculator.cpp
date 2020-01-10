@@ -135,5 +135,16 @@ TEST(LOADPRINTJOB, ReadInvalidPrintJob)
 
 TEST(PRINTTASK, CalculateTotal)
 {
+	string content = "Total Pages, Color Pages, Double Sided\n"
+		"25, 10,false\n"
+		"55, 13, true\n"
+		"502, 22, true\n"
+		"1, 0, false ";
+	std::unique_ptr<CCsvDataFile> dataFile = std::make_unique<CCsvDataFile>();
 
+	dataFile->ReadFromStream(istringstream(content), *dataFile);
+	PrinterTask task(std::move(dataFile));
+	task.DoCalculate();
+	EXPECT_FLOAT_EQ(task.GetTotalPriceForBlackAndWhite(), 15 * 0.15 + 42 * 0.1 + 480 * 0.1 + 1 * 0.15 );
+	EXPECT_FLOAT_EQ(task.GetTotalPriceForColor(), 10 * 0.25 + 13 * 0.2 + 22 * 0.2);
 }

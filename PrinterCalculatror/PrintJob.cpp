@@ -1,10 +1,20 @@
+#include "stdafx.h"
 #include "PrintJob.h"
-#include "CSVDataFile.h"
 
-//Constructor to start loading the CSV file
+//Constructor to start loading the CSV file by file name
 PrinterTask::PrinterTask(const std::string& strFileName)
-	: m_fileName(strFileName)
 {
+	m_ptrCsvFile = std::make_unique<CCsvDataFile>(strFileName.c_str());
+	m_totalPriceColor = 0;
+	m_totalPriceBlackAndWhite = 0;
+	m_mapRowPrintJobs.clear();
+	m_mapExceptionRows.clear();
+}
+
+//Constructor to start loading the CSV file by the file reference
+PrinterTask::PrinterTask(std::unique_ptr<CCsvDataFile> df)
+{
+	m_ptrCsvFile = std::move(df);
 	m_totalPriceColor = 0;
 	m_totalPriceBlackAndWhite = 0;
 	m_mapRowPrintJobs.clear();
@@ -16,30 +26,31 @@ PrinterTask::PrinterTask(const std::string& strFileName)
 // return false if the task is terminated because of wrong data
 bool PrinterTask::DoCalculate()
 {
-	CCsvDataFile dataFile = CCsvDataFile(m_fileName.c_str());
-
-	if (dataFile.GetLastError()[0] != '\0')
+	assert(m_ptrCsvFile);
+	if (m_ptrCsvFile->GetLastError()[0] != '\0')
 	{
-		printf("Meet error when loading the file: %s", dataFile.GetLastError());
+		printf("Meet error when loading the file: %s", m_ptrCsvFile->GetLastError());
 		return false;
 	}
-	int totalRows = dataFile.GetNumberOfSamples(0);
+	int totalRows = m_ptrCsvFile->GetNumberOfSamples(0);
 	for (int i = 0; i < totalRows; i++)
 	{
 		int nTotalPages, nColorPages;
 		bool bIsDoulbeSide;
-		if (dataFile.GetData("Total Pages", i, nTotalPages)
-			&& dataFile.GetData("Color Pages", i, nColorPages)
-			&& dataFile.GetData("Double Sided", 0, bIsDoulbeSide))
+		if (m_ptrCsvFile->GetData("Total Pages", i, nTotalPages)
+			&& m_ptrCsvFile->GetData("Color Pages", i, nColorPages)
+			&& m_ptrCsvFile->GetData("Double Sided", i, bIsDoulbeSide))
 		{
 			PrintJob job(nTotalPages, nColorPages, (JobType)bIsDoulbeSide);
 			if (job.IsValidJob())
 			{
-				std::printf("Add Print Job No. %i - Type: %s, Black and White Printing Pages: %i, Color Printing Pages: %i\n",
+				std::printf("Add Print Job No. %i - Type: %s\n Black and White Printing Pages: %i, cost: %.2f\n Color Printing Pages: %i, cost: %.2f\n\n ",
 					i,
 					job.GetPrintType() == JobType::SinglePage ? "single Side" : "Double Side",
 					job.GetBlackWhitePages(),
-					job.GetColorPages());
+					job.GetBlackAndWhitePrice(),
+					job.GetColorPages(),
+					job.GetColorPrice());
 				m_totalPriceBlackAndWhite += job.GetBlackAndWhitePrice();
 				m_totalPriceColor += job.GetColorPrice();
 
@@ -48,7 +59,7 @@ bool PrinterTask::DoCalculate()
 		}
 		else
 		{
-			m_mapExceptionRows.insert(std::pair<int, std::string>(i, dataFile.GetLastError()));
+			m_mapExceptionRows.insert(std::pair<int, std::string>(i, m_ptrCsvFile->GetLastError()));
 			return false;
 		}
 	}

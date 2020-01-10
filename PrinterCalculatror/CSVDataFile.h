@@ -1,3 +1,4 @@
+#pragma once
 #include <vector>
 // the CDataFile class
 class CCsvDataFile
